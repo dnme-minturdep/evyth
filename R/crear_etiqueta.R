@@ -1,14 +1,27 @@
-etiquetar <- function(base, variables = NULL, drop_vars = T) {
+#' Title
+#'
+#' @param base dataset que contiene la variable a etiquetar
+#' @param variables variable o conjunto de variables a etiquetar
+#' @param drop_vars ¿?
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' crear_etiqueta(base = comunicacion::toy_evyth, variables = "tipo_visitante")
+#'
 
-  diccionario <- read.csv("http://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/d8107236-f5ba-428d-8a31-f9b2034d8c8f/download/evyth_diccionario_registro.csv")
+crear_etiqueta <- function(base, variables = NULL, drop_vars = T) {
+
+  diccionario <- utils::read.csv("http://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/d8107236-f5ba-428d-8a31-f9b2034d8c8f/download/evyth_diccionario_registro.csv")
 
 
   if (is.null(variables)) {
-    variables <- colnames(base)
+    variables <- names(base)
   }
 
   if (is.numeric(variables)) {
-    variables <- colnames(base[variables])
+    variables <- names(base[variables])
   }
 
   coincidencias <- c()
@@ -27,8 +40,8 @@ etiquetar <- function(base, variables = NULL, drop_vars = T) {
     }
 
     if (drop_vars == T) {
-      base <- select(base, -any_of(i))
-      base <- rename_with(base, .cols= matches(match = paste0(i,"_label")), .fn = ~i)
+      base <- dplyr::select(base, -dplyr::any_of(i))
+      base <- dplyr::rename_with(base, .cols= dplyr::matches(match = paste0(i,"_label")), .fn = ~i)
     }
 
   }
