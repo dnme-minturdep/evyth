@@ -45,7 +45,9 @@ crear_etiqueta <- function(base, variables = NULL, drop_vars = T) {
     }
 
   }
-  message(paste(length(coincidencias), "variables etiquetadas"))
-  message(paste(coincidencias))
+  message(paste(length(coincidencias), 
+                ifelse(length(coincidencias) == 1, "variable etiquetada:",
+                       "variables etiquetadas:")))
+  message(paste(coincidencias, collapse = ", "))
   base
 }
