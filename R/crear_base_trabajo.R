@@ -13,7 +13,7 @@ crear_base_trabajo <- function(){
   ### Importar según el formato del archivo .csv / .sav
   if(stringr::str_ends(archivo, ".csv")){
 
-    b_evyth <- read.csv2(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
+    b_evyth <- utils::read.csv2(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
                                              files = archivo))
   }
 
@@ -30,11 +30,11 @@ crear_base_trabajo <- function(){
 
   ### Limpieza
   b_evyth <- b_evyth %>%
-    mutate(
-      across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
-      across(starts_with("pxb16_1_"), ~ case_when(. == 0 ~ 2,
+    dplyr::mutate(
+      dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
+      dplyr::across(tidyselect::starts_with("pxb16_1_"), ~ dplyr::case_when(. == 0 ~ 2,
                                                   . == 1 ~ 1)),
-      p006_agrup = case_when(p006_agrup == 0 ~ 1,
+      p006_agrup = dplyr::case_when(p006_agrup == 0 ~ 1,
                              p006_agrup == 1 ~ 2,
                              p006_agrup == 2 ~ 3,
                              p006_agrup == 3 ~ 4,
