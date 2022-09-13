@@ -7,23 +7,20 @@
 descargar_microdatos(anio = 2018, trimestre = NA, variables = "all")
 }
 \arguments{
+\item{anio}{un integer o vector de integers a partir de 2012}
+
+\item{trimestre}{un integer o vector de integers con el numero de trim: 1,2,3,4}
+
 \item{variables}{un vector de characters. variables a seleccionar. Default='all' trae todas las variables}
-
-\item{anioo}{un integer o vector de integers a partir de 2012}
-
-\item{trim}{un integer o vector de integers con el numero de trim: 1,2,3,4}
-
-\item{carpeta}{un string con la direccion de un archivo .RDS. Si se ingresa un path a un archivo que no existe, se descarga
-el archivo y se graba en esa direccion. Si existe un archivo en ese path, se lee el archivo.}
 }
 \description{
 Funcion que descarga bases de la Encuesta de Viajes y Turismo de lo Hogares
 }
 \examples{
 
-base_individual <- descargo_microdatos(anioo = 2018:2019,
-                                      trim = 1,
-                                      variables = c('anioo','tipo_visitante','pondera'))
+base_individual <- descargar_microdatos(anio = 2018:2019,
+                                      trimestre = 1,
+                                      variables = c('anio','tipo_visitante','pondera'))
 
 
 }

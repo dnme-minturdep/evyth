@@ -9,12 +9,19 @@ Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.1
 Suggests: 
+    assertthat,
     comunicacion,
-    testthat (>= 3.0.0)
+    testthat
 Config/testthat/edition: 3
 Imports: 
+    arrow,
+    data.table,
     dplyr,
+    foreign,
+    glue,
     magrittr,
+    stringr,
+    tidyr,
     tidyselect
 URL: https://github.com/d4t4tur/evyth
 BugReports: https://github.com/d4t4tur/evyth/issues
