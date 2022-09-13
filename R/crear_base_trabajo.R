@@ -13,14 +13,14 @@ crear_base_trabajo <- function(){
   ### Importar según el formato del archivo .csv / .sav
   if(stringr::str_ends(archivo, ".csv")){
 
-    b_evyth <- utils::read.csv2(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
+    b_evyth <- data.table::fread(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
                                              files = archivo))
   }
 
   if(stringr::str_ends(archivo, ".sav")){
 
     b_evyth <- foreign::read.spss(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo, ".zip"),
-                                                      files = paste0(archivo, ".csv")),
+                                                      files = paste0(archivo, ".sav")),
                                   use.value.labels = FALSE,
                                   to.data.frame = TRUE,
                                   trim.factor.names = TRUE,
@@ -33,13 +33,13 @@ crear_base_trabajo <- function(){
     dplyr::mutate(
       dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
       dplyr::across(tidyselect::starts_with("pxb16_1_"), ~ dplyr::case_when(. == 0 ~ 2,
-                                                  . == 1 ~ 1)),
+                                                                            . == 1 ~ 1)),
       p006_agrup = dplyr::case_when(p006_agrup == 0 ~ 1,
-                             p006_agrup == 1 ~ 2,
-                             p006_agrup == 2 ~ 3,
-                             p006_agrup == 3 ~ 4,
-                             p006_agrup == 4 ~ 5,
-                             p006_agrup == 99 ~ 99),
+                                    p006_agrup == 1 ~ 2,
+                                    p006_agrup == 2 ~ 3,
+                                    p006_agrup == 3 ~ 4,
+                                    p006_agrup == 4 ~ 5,
+                                    p006_agrup == 99 ~ 99),
       p007 = ifelse(p007 == 0, NA_real_, p007),
       cond_act = ifelse(cond_act == 0, 4, cond_act))
 

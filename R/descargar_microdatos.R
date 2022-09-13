@@ -1,27 +1,25 @@
 #'Descarga de Bases de la Encuesta de Viajes y Turismo de los Hogares (EVyTH)
 #'@description
 #'Funcion que descarga bases de la Encuesta de Viajes y Turismo de lo Hogares
-#'@param anioo un integer o vector de integers a partir de 2012
-#'@param trim un integer o vector de integers con el numero de trim: 1,2,3,4
+#'@param anio un integer o vector de integers a partir de 2012
+#'@param trimestre un integer o vector de integers con el numero de trim: 1,2,3,4
 #'@param variables un vector de characters. variables a seleccionar. Default='all' trae todas las variables
-#'@param carpeta un string con la direccion de un archivo .RDS. Si se ingresa un path a un archivo que no existe, se descarga
-#'                el archivo y se graba en esa direccion. Si existe un archivo en ese path, se lee el archivo.
 #'@details
 #'
 #'@return
 #'
 #'@examples
 #'
-#'base_individual <- descargo_microdatos(anioo = 2018:2019,
-#'                                       trim = 1,
-#'                                       variables = c('anioo','tipo_visitante','pondera'))
+#'base_evyth <- descargar_microdatos(anio = 2018:2019,
+#'                                   trimestre = 1,
+#'                                   variables = c('anio','tipo_visitante','pondera'))
 #'
 #'
 #'@export
 
 descargar_microdatos <- function(anio = 2018,
-                                trimestre = NA,
-                                variables = 'all'){
+                                 trimestre = NA,
+                                 variables = 'all'){
 
   anioo <- anio
   trim <- trimestre
@@ -66,7 +64,6 @@ descargar_microdatos <- function(anio = 2018,
   if (nrow(base)>0) {
 
     chequeo <- variables %in% names(base)
-
 
     assertthat::assert_that(all(chequeo), msg=glue::glue('Las variables: {glue::glue_collapse(variables[!chequeo],sep = ", ", last = ", y ")} no se encuentran disponibles para esta base.'))
 
