@@ -23,13 +23,11 @@ crear_base_trabajo <- function(){
                                              files = archivo))
   }
 
-  if(stringr::str_ends(archivo, ".sav")){
-
-    b_evyth <- foreign::read.spss(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo, ".zip"),
-                                                      files = paste0(archivo, ".sav")),
-                                  use.value.labels = FALSE,
-                                  to.data.frame = TRUE,
-                                  trim.factor.names = TRUE,
+  if (stringr::str_ends(archivo, ".sav")) {
+    archivo <- stringr::str_remove(archivo, ".sav")
+    b_evyth <- foreign::read.spss(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/",
+                                                                       archivo, ".zip"), files = paste0(archivo, ".sav")),
+                                  use.value.labels = FALSE, to.data.frame = TRUE, trim.factor.names = TRUE,
                                   reencode = "utf8")
   }
 
