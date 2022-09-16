@@ -1,3 +1,9 @@
+#' Title
+#'
+#' @return
+#' @export
+#'
+#' @examples
 crear_base_trabajo <- function(){
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

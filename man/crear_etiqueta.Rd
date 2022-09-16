@@ -11,7 +11,7 @@ crear_etiqueta(base, variables = NULL, drop_vars = T)
 
 \item{variables}{variable o conjunto de variables a etiquetar}
 
-\item{drop_vars}{¿?}
+\item{drop_vars}{TRUE pisa variable. FALSE si queres conservar la columna.}
 }
 \description{
 Title

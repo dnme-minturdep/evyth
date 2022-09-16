@@ -10,14 +10,14 @@
 #'
 #'@examples
 #'
-#'base_evyth <- descargar_microdatos(anio = 2018:2019,
+#'base_evyth <- descargar_microdato(anio = 2018:2019,
 #'                                   trimestre = 1,
 #'                                   variables = c('anio','tipo_visitante','pondera'))
 #'
 #'
 #'@export
 
-descargar_microdatos <- function(anio = 2018,
+descargar_microdato <- function(anio = 2018,
                                  trimestre = NA,
                                  variables = 'all'){
 
@@ -51,7 +51,7 @@ descargar_microdatos <- function(anio = 2018,
 
     base <- data.table::fread(temp) %>%
       tidyr::as_tibble() %>%
-      dplyr::filter(anio == anioo) %>%
+      dplyr::filter(anio %in% anioo) %>%
       dplyr::filter(trimestre %in% trim)
 
   }

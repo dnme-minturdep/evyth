@@ -1,8 +1,13 @@
-
-
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-##                          Armo base de microdatos                         ----
-##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+#' Title
+#'
+#' @param anio
+#' @param trimestre
+#' @param backup
+#'
+#' @return
+#' @export
+#'
+#' @examples
 crear_base_microdato <- function(anio, trimestre, backup = TRUE){
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

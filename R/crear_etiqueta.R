@@ -2,7 +2,7 @@
 #'
 #' @param base dataset que contiene la variable a etiquetar
 #' @param variables variable o conjunto de variables a etiquetar
-#' @param drop_vars ¿?
+#' @param drop_vars TRUE pisa variable. FALSE si queres conservar la columna.
 #'
 #' @return
 #' @export
