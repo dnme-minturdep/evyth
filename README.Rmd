@@ -1,0 +1,65 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+
+# {evyth} <a href="https://dnme-minturdep.github.io/herramientas/"><img src="man/figures/logo.png" align="right" height="360" /></a>
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+El objetivo del paquete es proveer a la [**Dirección Nacional de Mercados y Estadísticas**](https://www.yvera.tur.ar/sinta/) de un set de funciones para el procesamiento de la Encuesta de Viaje y Turismo de los Hogares (EVyTH)
+
+## Instrucciones de instalación 
+
+
+Se puede instalar la versión en desarrollo de `{evyth}` desde [GitHub](https://github.com/) con la siguiente sentencia:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("d4t4tur/herramientas")
+```
+Alternativamente se puede isntalar desde el r-universe de la DNMyE, con los siguientes pasos: 
+
+### Habilitar repositorio de paquetes de la dnme-minturdep
+
+```
+options(repos = c(
+  dnmeminturdep = 'https://dnme-minturdep.r-universe.dev',
+  CRAN = 'https://cloud.r-project.org'))
+```
+
+
+### Descargar e instalar `{evyth}` en R del modo usual 
+
+```
+install.packages('evyth')
+```
+
+
+
+
+
+## Ejemplo
+
+Un ejemplo básico de como usar la librería:
+
+```{r ejemplo}
+library(evyth)
+
+# Descargo datos de primeros trimestres
+evyth::descargar_microdato(anio = 2019, trimestre = 1)
+
+
+```

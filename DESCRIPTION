@@ -1,5 +1,5 @@
 Package: evyth
-Title: What the Package Does (One Line, Title Case)
+Title: Herramientas para el Procesamiento de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH)
 Version: 0.0.0.9001
 Authors@R: 
     person("Pablo", "Tiscornia", , "ptiscornia@turismo.gob.ar", role = c("aut", "cre"))
