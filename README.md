@@ -18,7 +18,7 @@ Se puede instalar la versión en desarrollo de `{evyth}` desde
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("d4t4tur/herramientas")
+devtools::install_github("d4t4tur/evyth")
 ```
 
 Alternativamente se puede isntalar desde el r-universe de la DNMyE, con
