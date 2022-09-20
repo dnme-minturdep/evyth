@@ -4,7 +4,7 @@
 #' @export
 #'
 #' @examples
-crear_base_trabajo <- function(){
+crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##  ~ Cargo base primaria  ----
@@ -14,23 +14,45 @@ crear_base_trabajo <- function(){
   archivo_zip <- list.files("/srv/DataDNMYE/evyth/", pattern = ".zip")
 
   ### Listo archivos dentro del .zip
-  archivo <- utils::unzip(glue::glue("/srv/DataDNMYE/evyth/{archivo_zip}"), list = TRUE)[1,1]
+  archivos <- utils::unzip(glue::glue("/srv/DataDNMYE/evyth/{archivo_zip}"), list = TRUE)
 
   ### Importar según el formato del archivo .csv / .sav
-  if(stringr::str_ends(archivo, ".csv")){
+  if(any(stringr::str_ends(archivos$Name, ".csv"))){
 
     b_evyth <- data.table::fread(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
-                                             files = archivo))
-  }
+                                                     files = archivos$Name[str_detect(archivos$Name, "csv")]))
+  } else {
 
-  if (stringr::str_ends(archivo, ".sav")) {
-    archivo <- stringr::str_remove(archivo, ".sav")
-    b_evyth <- foreign::read.spss(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/",
-                                                                       archivo, ".zip"), files = paste0(archivo, ".sav")),
-                                  use.value.labels = FALSE, to.data.frame = TRUE, trim.factor.names = TRUE,
-                                  reencode = "utf8")
-  }
+    if(any(stringr::str_ends(archivos$Name, ".sav"))){
 
+      archivo <- stringr::str_remove(archivos$Name[str_detect(archivos$Name, "sav")], ".sav")
+
+      ### Pruebo importar con {haven}, si el problema del encoding persiste se prueba con {foreign}
+      tryCatch(
+
+        expr = {
+          b_evyth <- haven::read_sav(file = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
+                                     #user_na = FALSE,
+                                     encoding = "utf8") %>%
+            haven::zap_formats() %>%
+            haven::zap_widths() %>%
+            haven::zap_label() %>%
+            haven::zap_labels()
+
+          message("Se cargó con {haven}")
+        },
+
+        error = function(e){          # Specifying error message
+          message("No se pudo cargar con {haven} por problemas en el encoding del .sav, se procede a cargar con {foreign}")
+        }
+      )
+
+      b_evyth <- foreign::read.spss(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/",
+                                                                         archivo, ".zip"), files = paste0(archivo, ".sav")),
+                                    to.data.frame = TRUE, use.value.labels = FALSE, trim.factor.names = TRUE,
+                                    reencode = "utf8")
+    }
+  }
 
   ### Limpieza
   b_evyth <- b_evyth %>%
@@ -47,11 +69,24 @@ crear_base_trabajo <- function(){
       p007 = ifelse(p007 == 0, NA_real_, p007),
       cond_act = ifelse(cond_act == 0, 4, cond_act))
 
-
   ### Escribo la base de trabajo
   arrow::write_parquet(x = b_evyth,
                        sink = glue::glue("/srv/DataDNMYE/evyth/base_trabajo/evyth_base_de_trabajo.parquet"),
                        compression = "uncompressed")
 
 
+  ### Borro archivo que se genera con read_sav
+  if(file.exists(archivos$Name[str_detect(archivos$Name, "sav")])){
+
+    file.remove(archivos$Name[str_detect(archivos$Name, "sav")])
+  }
+
+  if(file.exists(archivos$Name[str_detect(archivos$Name, "csv")])){
+
+    file.remove(archivos$Name[str_detect(archivos$Name, "csv")])
+  }
+
+  print("La base de trabajo se creo correctamente")
 }
+
+
