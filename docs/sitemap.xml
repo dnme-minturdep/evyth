@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>/404.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/404.html</loc>
   </url>
   <url>
-    <loc>/authors.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/LICENSE.html</loc>
   </url>
   <url>
-    <loc>/index.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/authors.html</loc>
   </url>
   <url>
-    <loc>/LICENSE.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/index.html</loc>
   </url>
   <url>
-    <loc>/news/index.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/news/index.html</loc>
   </url>
   <url>
-    <loc>/reference/crear_base_microdato.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/crear_base_microdato.html</loc>
   </url>
   <url>
-    <loc>/reference/crear_base_trabajo.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/crear_base_trabajo.html</loc>
   </url>
   <url>
-    <loc>/reference/crear_etiqueta.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/crear_etiqueta.html</loc>
   </url>
   <url>
-    <loc>/reference/descargar_microdato.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/descargar_microdato.html</loc>
   </url>
   <url>
-    <loc>/reference/escribir_base_microdato.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/escribir_base_microdato.html</loc>
   </url>
   <url>
-    <loc>/reference/index.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/index.html</loc>
   </url>
   <url>
-    <loc>/reference/pipe.html</loc>
+    <loc>https://dnme-minturdep.github.io/evyth/reference/pipe.html</loc>
   </url>
 </urlset>
