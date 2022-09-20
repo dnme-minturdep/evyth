@@ -3,7 +3,7 @@ Title: Herramientas para el Procesamiento de la Encuesta de Turismo y Vivienda d
 Version: 0.0.0.9001
 Authors@R: 
     person("Pablo", "Tiscornia", , "ptiscornia@turismo.gob.ar", role = c("aut", "cre"))
-Description: What the package does (one paragraph).
+Description: El paquete provee herramientas para facilitar el trabajo con la base de microdatos de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH), operativo continuo admisnitrado por la Dirección Nacional de Mercados y Estadísticas (DNMyE)
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
