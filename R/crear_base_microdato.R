@@ -8,7 +8,11 @@
 #' @export
 #'
 #' @examples
-crear_base_microdato <- function(anio, trimestre, backup = TRUE){
+crear_base_microdato <- function(anio, trimestre, backup = FALSE){
+
+  if(backup == FALSE){
+    print("No se está creando un backup de la base de microdatos anterior. Para ello setear backup = TRUE en la función")
+  }
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##  ~ Cargo base primaria  ----
@@ -16,7 +20,6 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
 
   b_evyth <- arrow::read_parquet("/srv/DataDNMYE/evyth/base_trabajo/evyth_base_de_trabajo.parquet",
                                  as_data_frame = TRUE)
-
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##  ~ Chequeo que la base cuente con información para el período especificado en la función  ----
@@ -37,9 +40,9 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
 
   ### Chequeo que no haya valores NA en pondera para armar el trimestre
   assertthat::assert_that(b_evyth %>%
-                            select(anio, trimestre, Mes, pondera) %>%
-                            filter(anio == anioo & trimestre == trimm) %>%
-                            pull(pondera) %>%
+                            dplyr::select(anio, trimestre, Mes, pondera) %>%
+                            dplyr::filter(anio == anioo & trimestre == trimm) %>%
+                            dplyr::pull(pondera) %>%
                             is.na() %>%
                             any() == FALSE,
                           msg = "No se puede armar la base, hay valores NA en la variable pondera. Chequear si el trimestre está completo")
@@ -66,14 +69,14 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   b_evyth <- b_evyth %>%
-    filter(arg_o_ext == 1) %>%
-    filter(anio %in% c(2012:anioo) | anio == anioo & trimestre %in% c(1:trimm)) %>%
-    select(all_of(variables)) %>%
-    mutate(
-      across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
-      across(starts_with("pxb16_1_"), ~ case_when(. == 0 ~ 2,
+    dplyr::filter(arg_o_ext == 1) %>%
+    dplyr::filter(anio %in% c(2012:anioo) | anio == anioo & trimestre %in% c(1:trimm)) %>%
+    dplyr::select(tidyselect::all_of(variables)) %>%
+    dplyr::mutate(
+      dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
+      dplyr::across(tidyselect::starts_with("pxb16_1_"), ~ dplyr::case_when(. == 0 ~ 2,
                                                   . == 1 ~ 1)),
-      p006_agrup = case_when(p006_agrup == 0 ~ 1,
+      p006_agrup = dplyr::case_when(p006_agrup == 0 ~ 1,
                              p006_agrup == 1 ~ 2,
                              p006_agrup == 2 ~ 3,
                              p006_agrup == 3 ~ 4,
@@ -90,11 +93,11 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
 
   ### Cargo tabla con codigos indec
   #b_cod_loc_evyth <- read_excel("salidas/localidades_evyth_con_codigo_2010.xlsx")
-  b_cod_loc_evyth <- readxl::read_excel("srv/DataDNMYE/evyth/nomenclatura_geo/localidades_evyth_con_codigo_2010.xlsx")
+  b_cod_loc_evyth <- readxl::read_excel("/srv/DataDNMYE/evyth/nomenclatura_geo/localidades_evyth_con_codigo_2010.xlsx", progress = FALSE)
 
   ### Join de codigo de localidades indec a base evyth
   b_evyth <- b_evyth %>%
-    dplyr::left_join(select(b_cod_loc_evyth,
+    dplyr::left_join(dplyr::select(b_cod_loc_evyth,
                      codprov, codloc, codigo_2001, codigo_2010, cod_prov_2010 = cod_prov,
                      cod_depto_2010, cod_loc_2010),
               by = c(c("codigode_localidad" = "codloc"),
@@ -104,6 +107,7 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
   #mutate(across(everything(.), ~ replace_na(., "")))
 
   rm(b_cod_loc_evyth)
+
 
 
   #################################### Armo backup de última versión en server ----
@@ -121,27 +125,35 @@ crear_base_microdato <- function(anio, trimestre, backup = TRUE){
     zip::zipr(zipfile = glue::glue("/srv/DataDNMYE/evyth/microdatos/backup/backup_microdatos_{lubridate::today()}.Zip"),
               files = Zip_Files)
 
+    print("Se ha creado el backup correctamente")
+
   }
 
 
   #################################### Generación de base usuario ----
-  ### Armo base usuaria en formato .csv
-  readr::write_csv(b_evyth,
-            file = "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.csv", na = "")
 
-  ### Armo base usuaria en formato .txt
-  readr::write_delim(b_evyth,
-              file = "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.txt",
-              delim = ",", na = "")
+  formatos <- c("csv", "txt", "sav", "dta", "xlsx")
+  n_iteracion <- length(formatos)
 
-  ### Armo base usuaria en formato .sav (spss)
-  haven::write_sav(b_evyth, "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.sav")
+  barra_progreso <- txtProgressBar(min = 0,      # Minimum value of the progress bar
+                                   max = n_iteracion, # Maximum value of the progress bar
+                                   style = 3,    # Progress bar style (also available style = 1 and style = 2)
+                                   width = 50,   # Progress bar width. Defaults to getOption("width")
+                                   char = "=")   # Character used to create the bar
 
-  ### Armo base usuaria en formato .dta (stata)
-  haven::write_dta(data = b_evyth, path = "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.dta")
+  for (i in seq_along(formatos)) {
 
-  ### Armo base usuaria en formato .xlsx (Excel)
-  writexl::write_xlsx(b_evyth, "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.xlsx")
+    escribo_base(archivo = b_evyth,
+                 formato = formatos[i])
 
+    cat(glue::glue(" --> base en .{formatos[i]} creada correctamente"))
+
+    setTxtProgressBar(barra_progreso, i)
+
+  }
+
+  close(barra_progreso)
+
+  cat("Proceso finalizado con éxito")
 
 }
