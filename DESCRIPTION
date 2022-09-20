@@ -22,6 +22,7 @@ Imports:
     magrittr,
     stringr,
     tidyr,
-    tidyselect
+    tidyselect,
+    utils
 URL: https://github.com/d4t4tur/evyth
 BugReports: https://github.com/d4t4tur/evyth/issues
