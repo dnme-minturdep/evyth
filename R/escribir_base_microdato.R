@@ -10,7 +10,7 @@
 #'
 
 
-escribo_base <- function(archivo = NULL, formato = "csv"){
+escribir_base_microdato <- function(archivo = NULL, formato = "csv"){
 
   if(formato == "cvs"){
     ### Armo base usuaria en formato .csv
