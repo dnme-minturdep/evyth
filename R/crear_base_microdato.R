@@ -75,13 +75,13 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
     dplyr::mutate(
       dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
       dplyr::across(tidyselect::starts_with("pxb16_1_"), ~ dplyr::case_when(. == 0 ~ 2,
-                                                  . == 1 ~ 1)),
+                                                                            . == 1 ~ 1)),
       p006_agrup = dplyr::case_when(p006_agrup == 0 ~ 1,
-                             p006_agrup == 1 ~ 2,
-                             p006_agrup == 2 ~ 3,
-                             p006_agrup == 3 ~ 4,
-                             p006_agrup == 4 ~ 5,
-                             p006_agrup == 99 ~ 99),
+                                    p006_agrup == 1 ~ 2,
+                                    p006_agrup == 2 ~ 3,
+                                    p006_agrup == 3 ~ 4,
+                                    p006_agrup == 4 ~ 5,
+                                    p006_agrup == 99 ~ 99),
       p007 = ifelse(p007 == 0, NA_real_, p007),
       cond_act = ifelse(cond_act == 0, 4, cond_act))
 
@@ -98,10 +98,10 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   ### Join de codigo de localidades indec a base evyth
   b_evyth <- b_evyth %>%
     dplyr::left_join(dplyr::select(b_cod_loc_evyth,
-                     codprov, codloc, codigo_2001, codigo_2010, cod_prov_2010 = cod_prov,
-                     cod_depto_2010, cod_loc_2010),
-              by = c(c("codigode_localidad" = "codloc"),
-                     c("provincia_destino" = "codprov")), suffix = c("evyth_", "geo")) %>%
+                                   codprov, codloc, codigo_2001, codigo_2010, cod_prov_2010 = cod_prov,
+                                   cod_depto_2010, cod_loc_2010),
+                     by = c(c("codigode_localidad" = "codloc"),
+                            c("provincia_destino" = "codprov")), suffix = c("evyth_", "geo")) %>%
     dplyr::rename(cod_loc_2001 = codigode_localidad) %>%
     dplyr::relocate(tidyselect::contains("cod"), .after = localidad_destino)
   #mutate(across(everything(.), ~ replace_na(., "")))
@@ -135,20 +135,20 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   formatos <- c("csv", "txt", "sav", "dta", "xlsx")
   n_iteracion <- length(formatos)
 
-  barra_progreso <- txtProgressBar(min = 0,      # Minimum value of the progress bar
-                                   max = n_iteracion, # Maximum value of the progress bar
-                                   style = 3,    # Progress bar style (also available style = 1 and style = 2)
-                                   width = 50,   # Progress bar width. Defaults to getOption("width")
-                                   char = "=")   # Character used to create the bar
+  barra_progreso <- utils::txtProgressBar(min = 0,      # Minimum value of the progress bar
+                                          max = n_iteracion, # Maximum value of the progress bar
+                                          style = 3,    # Progress bar style (also available style = 1 and style = 2)
+                                          width = 50,   # Progress bar width. Defaults to getOption("width")
+                                          char = "=")   # Character used to create the bar
 
   for (i in seq_along(formatos)) {
 
-    escribo_base(archivo = b_evyth,
-                 formato = formatos[i])
+    escribir_base_microdato(archivo = b_evyth,
+                            formato = formatos[i])
 
     cat(glue::glue(" --> base en .{formatos[i]} creada correctamente"))
 
-    setTxtProgressBar(barra_progreso, i)
+    utils::setTxtProgressBar(barra_progreso, i)
 
   }
 

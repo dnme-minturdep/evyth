@@ -4,7 +4,7 @@
 \alias{crear_base_microdato}
 \title{Title}
 \usage{
-crear_base_microdato(anio, trimestre, backup = TRUE)
+crear_base_microdato(anio, trimestre, backup = FALSE)
 }
 \arguments{
 \item{backup}{}

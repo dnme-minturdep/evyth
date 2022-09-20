@@ -4,7 +4,7 @@
 \alias{crear_base_trabajo}
 \title{Title}
 \usage{
-crear_base_trabajo()
+crear_base_trabajo(escritura = TRUE, ambiente = FALSE)
 }
 \description{
 Title
