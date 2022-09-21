@@ -2,7 +2,7 @@
 % Please edit documentation in R/crear_etiqueta.R
 \name{crear_etiqueta}
 \alias{crear_etiqueta}
-\title{Title}
+\title{Crear Etiqueta}
 \usage{
 crear_etiqueta(base, variables = NULL, drop_vars = T)
 }
@@ -14,7 +14,7 @@ crear_etiqueta(base, variables = NULL, drop_vars = T)
 \item{drop_vars}{TRUE pisa variable. FALSE si queres conservar la columna.}
 }
 \description{
-Title
+Genera etiquetas asociadas a valores de repuestas de la EVyTH
 }
 \examples{
 crear_etiqueta(base = comunicacion::toy_evyth, variables = "tipo_visitante")

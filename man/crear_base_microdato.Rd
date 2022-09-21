@@ -2,13 +2,20 @@
 % Please edit documentation in R/crear_base_microdato.R
 \name{crear_base_microdato}
 \alias{crear_base_microdato}
-\title{Title}
+\title{Crear Base de Microdatos}
 \usage{
 crear_base_microdato(anio, trimestre, backup = FALSE)
 }
 \arguments{
-\item{backup}{}
+\item{anio}{variable numerica con anio o vector de anios del periodo que se requiere descargar a partir de 2012}
+
+\item{trimestre}{variable numerica con trimestre o vector de trimestres del periodo que se requiere descargar: 1, 2, 3, 4}
+
+\item{backup}{variable bloeana que determina la generacion de una copia de respaldo, por defecto FALSE}
+}
+\value{
+Data frame con base de microdatos de la EVyTH
 }
 \description{
-Title
+Descarga una base usuaria de microdatos de la Encuesta de Viaje y Turismo de los Hogares
 }

@@ -1,13 +1,16 @@
 Package: evyth
 Title: Herramientas para el Procesamiento de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH)
 Version: 0.0.0.9001
-Authors@R: 
-    person("Pablo", "Tiscornia", , "ptiscornia@turismo.gob.ar", role = c("aut", "cre"))
-Description: El paquete provee herramientas para facilitar el trabajo con la base de microdatos de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH), operativo continuo admisnitrado por la Dirección Nacional de Mercados y Estadísticas (DNMyE)
+Authors@R:  c(
+    person("Pablo", "Tiscornia", , "ptiscornia@turismo.gob.ar", role = c("aut", "cre")),
+    person("Juan Pablo", "Ruiz Nicolini", , "jruiznicolini@turismo.gob.ar", role = "aut",
+           comment = c(ORCID = "0000-0002-3138-6343"))
+           )
+Description: El paquete provee herramientas para facilitar el trabajo con la base de microdatos de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH), operativo continuo admisnitrado por la Dirección Nacional de Mercados y Estadísticas (DNMyE).
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.1.1
 Suggests: 
     assertthat,
     comunicacion,
@@ -23,6 +26,13 @@ Imports:
     stringr,
     tidyr,
     tidyselect,
-    utils
+    utils, 
+    readr, 
+    readxl, 
+    writexl, 
+    zip, 
+    haven
+Remotes: 
+    dnme-minturdep/comunicacion
 URL: https://github.com/d4t4tur/evyth
 BugReports: https://github.com/d4t4tur/evyth/issues

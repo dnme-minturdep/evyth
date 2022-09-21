@@ -2,10 +2,18 @@
 % Please edit documentation in R/crear_base_trabajo.R
 \name{crear_base_trabajo}
 \alias{crear_base_trabajo}
-\title{Title}
+\title{Crear Base de Trabajo}
 \usage{
 crear_base_trabajo(escritura = TRUE, ambiente = FALSE)
 }
+\arguments{
+\item{escritura}{por defecto TRUE}
+
+\item{ambiente}{por defecto FALSE}
+}
+\value{
+Base de datos en formato de archivo parquet
+}
 \description{
-Title
+Pre proceamiento a partir de base cruda de microdatos para generacion de una base de trabajo
 }

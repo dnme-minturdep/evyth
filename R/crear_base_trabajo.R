@@ -1,9 +1,12 @@
-#' Title
+#' Crear Base de Trabajo
+#' @description
+#' Pre proceamiento a partir de base cruda de microdatos para generacion de una base de trabajo
+#' @return Base de datos en formato de archivo parquet
+#' @param escritura por defecto TRUE
+#' @param ambiente por defecto FALSE
 #'
-#' @return
 #' @export
 #'
-#' @examples
 crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -20,12 +23,12 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
   if(any(stringr::str_ends(archivos$Name, ".csv"))){
 
     b_evyth <- data.table::fread(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
-                                                     files = archivos$Name[str_detect(archivos$Name, "csv")]))
+                                                     files = archivos$Name[stringr::str_detect(archivos$Name, "csv")]))
   } else {
 
     if(any(stringr::str_ends(archivos$Name, ".sav"))){
 
-      archivo <- stringr::str_remove(archivos$Name[str_detect(archivos$Name, "sav")], ".sav")
+      archivo <- stringr::str_remove(archivos$Name[stringr::str_detect(archivos$Name, "sav")], ".sav")
 
       ### Pruebo importar con {haven}, si el problema del encoding persiste se prueba con {foreign}
       tryCatch(
@@ -39,7 +42,7 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
             haven::zap_label() %>%
             haven::zap_labels()
 
-          message("Se cargó con {haven}")
+          message("Base cargada con {haven}")
         },
 
         error = function(e){          # Specifying error message
@@ -76,14 +79,14 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
 
 
   ### Borro archivo que se genera con read_sav
-  if(file.exists(archivos$Name[str_detect(archivos$Name, "sav")])){
+  if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "sav")])){
 
-    file.remove(archivos$Name[str_detect(archivos$Name, "sav")])
+    file.remove(archivos$Name[stringr::str_detect(archivos$Name, "sav")])
   }
 
-  if(file.exists(archivos$Name[str_detect(archivos$Name, "csv")])){
+  if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "csv")])){
 
-    file.remove(archivos$Name[str_detect(archivos$Name, "csv")])
+    file.remove(archivos$Name[stringr::str_detect(archivos$Name, "csv")])
   }
 
   print("La base de trabajo se creo correctamente")

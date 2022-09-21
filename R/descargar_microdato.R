@@ -4,9 +4,6 @@
 #'@param anio un integer o vector de integers a partir de 2012
 #'@param trimestre un integer o vector de integers con el numero de trim: 1,2,3,4
 #'@param variables un vector de characters. variables a seleccionar. Default='all' trae todas las variables
-#'@details
-#'
-#'@return
 #'
 #'@examples
 #'
@@ -34,7 +31,7 @@ descargar_microdato <- function(anio = 2018,
   }
 
   if (any(!is.na(anioo))) {
-    assertthat::assert_that(any(anioo >= 2012), msg='La EVyTH cuenta con información a partir del año 2012')
+    assertthat::assert_that(any(anioo >= 2012), msg='La EVyTH cuenta con info a partir de 2012')
 
   }
 

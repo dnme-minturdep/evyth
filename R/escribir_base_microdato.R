@@ -1,11 +1,11 @@
-#' Title
+#' Escribir Base Microdato
+#' @description
+#' Formato de salida del archivo que se quiere generar
 #'
-#' @param formato
-#'
-#' @return
+#' @param formato Posibles salidas: .csv, .txt, .sav, .dta, nxls
+#' @param archivo archivo de entrada necesario para generar salidas de base de microdatos en distintos formatos
 #' @export
 #'
-#' @examples
 #'
 #'
 

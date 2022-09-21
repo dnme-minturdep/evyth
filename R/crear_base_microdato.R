@@ -1,17 +1,17 @@
-#' Title
+#' Crear Base de Microdatos
+#' @description
+#' Descarga una base usuaria de microdatos de la Encuesta de Viaje y Turismo de los Hogares
+#' @param anio variable numerica con anio o vector de anios del periodo que se requiere descargar a partir de 2012
+#' @param trimestre variable numerica con trimestre o vector de trimestres del periodo que se requiere descargar: 1, 2, 3, 4
+#' @param backup variable bloeana que determina la generacion de una copia de respaldo, por defecto FALSE
 #'
-#' @param anio
-#' @param trimestre
-#' @param backup
-#'
-#' @return
+#' @return Data frame con base de microdatos de la EVyTH
 #' @export
 #'
-#' @examples
 crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
   if(backup == FALSE){
-    print("No se está creando un backup de la base de microdatos anterior. Para ello setear backup = TRUE en la función")
+    print("No se crea un backup de la base de microdatos anterior. Para ello setear backup = TRUE en la func")
   }
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -30,13 +30,13 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
   ultimo_trim_evyth <- max(unique(b_evyth$trimestre[b_evyth$anio == max(b_evyth$anio)]))
 
-  ### Chequeo que haya información para el año definido
+  ### Chequeo que haya información para el anio definido
   assertthat::assert_that(anioo %in% unique(b_evyth$anio),
-                          msg = "La base no cuenta con información para el año especificado")
+                          msg = "La base no cuenta con info para el anio especificado")
 
   ### Chequeo que haya información para el trimestre definido
   assertthat::assert_that(anioo %in% unique(b_evyth$anio) & trimm %in% unique(b_evyth$trimestre[b_evyth$anio == anioo]),
-                          msg = "La base no cuenta con información para el trimestre especificado")
+                          msg = "La base no cuenta con info para el trimestre especificado")
 
   ### Chequeo que no haya valores NA en pondera para armar el trimestre
   assertthat::assert_that(b_evyth %>%
@@ -45,7 +45,7 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
                             dplyr::pull(pondera) %>%
                             is.na() %>%
                             any() == FALSE,
-                          msg = "No se puede armar la base, hay valores NA en la variable pondera. Chequear si el trimestre está completo")
+                          msg = "No se puede armar la base, hay valores NA en la variable pondera. Chequear si el trimestre tiene todos los datos")
 
 
 
@@ -154,6 +154,6 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
   close(barra_progreso)
 
-  cat("Proceso finalizado con éxito")
+  cat("Proceso finalizado correctamente")
 
 }

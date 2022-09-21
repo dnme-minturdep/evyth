@@ -2,13 +2,15 @@
 % Please edit documentation in R/escribir_base_microdato.R
 \name{escribir_base_microdato}
 \alias{escribir_base_microdato}
-\title{Title}
+\title{Escribir Base Microdato}
 \usage{
 escribir_base_microdato(archivo = NULL, formato = "csv")
 }
 \arguments{
-\item{formato}{}
+\item{archivo}{archivo de entrada necesario para generar salidas de base de microdatos en distintos formatos}
+
+\item{formato}{Posibles salidas: .csv, .txt, .sav, .dta, nxls}
 }
 \description{
-Title
+Formato de salida del archivo que se quiere generar
 }
