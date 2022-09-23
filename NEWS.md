@@ -1,6 +1,10 @@
+# evyth 0.0.0.9002
+
+* Se agrega función `obtener_ipc()`, la cual Descarga de tabla con serie de Indices IPC Cobertura Nacional
+
 # evyth 0.0.0.9001
 
-* Se agrega función `escribir_base_microdato()`
+* Se agrega función `escribir_base_microdato()` la cual genera la base de microdatos a ser publicada en el Portal de Datos Abiertos del MINTURyDEP
 * Se mejora funcionamiento de `crear_base_trabajo()` y `crear_base_microdato()`
 
 # evyth 0.0.0.9000
