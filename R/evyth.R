@@ -28,7 +28,9 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(
     "pondera",
     "px09",
     "px10_1",
-    "px13"
+    "px13",
+    "total_nacional",
+    "ipc_indice"
     ))
 
 
