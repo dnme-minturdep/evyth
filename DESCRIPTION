@@ -1,6 +1,6 @@
 Package: evyth
 Title: Herramientas para el Procesamiento de la Encuesta de Turismo y Vivienda de los Hogares (EVyTH)
-Version: 0.0.0.9001
+Version: 0.0.0.9002
 Authors@R: c(
     person("Pablo", "Tiscornia", , "ptiscornia@turismo.gob.ar", role = c("aut", "cre")),
     person("Elián", "Soutullo", , "esoutullo@turismo.gob.ar", role = c("aut")),
