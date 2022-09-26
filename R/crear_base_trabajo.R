@@ -58,6 +58,8 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
   }
 
   ### Limpieza
+  serie_ipc <- evyth::obtener_ipc(fecha = "2022-08-01")
+
   b_evyth <- b_evyth %>%
     dplyr::mutate(
       dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
@@ -70,7 +72,8 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
                                     p006_agrup == 4 ~ 5,
                                     p006_agrup == 99 ~ 99),
       p007 = ifelse(p007 == 0, NA_real_, p007),
-      cond_act = ifelse(cond_act == 0, 4, cond_act))
+      cond_act = ifelse(cond_act == 0, 4, cond_act),
+      fecha_viaje = lubridate::ymd(paste(anio, mes_viaje, "01", sep = "-")))
 
   ### Escribo la base de trabajo
   arrow::write_parquet(x = b_evyth,

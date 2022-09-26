@@ -51,7 +51,7 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
   ### Defino variables para la base de microdatos abierta
   variables <- c("id_hogar", "id_viajes", "miembro", "anio", "trimestre", "region_origen",
-                 "aglomerado_origen", "region_destino_actual", "provincia_destino", "localidad_destino",
+                 "aglomerado_origen", "region_destino", "provincia_destino", "localidad_destino",
                  "codigode_localidad", "pondera", "tipo_visitante", "cantidad_destinos", "multidestino",
                  "px06", "px06_agrup", "px07", "px07_agrup", "px08", "px08_agrup", "px09", "px10_1", "px11",
                  "px12_1", "px12_2", "px12_3", "px12_4", "px12_5", "px12_6", "px12_7", "px12_8", "px13",
