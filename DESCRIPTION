@@ -33,7 +33,9 @@ Imports:
     writexl,
     zip,
     haven,
-    janitor
+    janitor,
+    lubridate,
+    rlang
 Remotes: 
     dnme-minturdep/comunicacion
 URL: https://github.com/d4t4tur/evyth

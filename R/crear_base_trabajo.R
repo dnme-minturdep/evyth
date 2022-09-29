@@ -2,12 +2,15 @@
 #' @description
 #' Pre proceamiento a partir de base cruda de microdatos para generacion de una base de trabajo
 #' @return Base de datos en formato de archivo parquet
+#' @importFrom rlang :=
 #' @param escritura por defecto TRUE
 #' @param ambiente por defecto FALSE
+#' @param fecha_ipc Introducir la fecha de referencia para el calculo del indice y coeficiente del ipc
 #'
 #' @export
 #'
-crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
+crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE,
+                               fecha_ipc = NULL){
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##  ~ Cargo base primaria  ----
@@ -19,11 +22,12 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
   ### Listo archivos dentro del .zip
   archivos <- utils::unzip(glue::glue("/srv/DataDNMYE/evyth/{archivo_zip}"), list = TRUE)
 
-  ### Importar según el formato del archivo .csv / .sav
+  ### Importar segun el formato del archivo .csv / .sav
   if(any(stringr::str_ends(archivos$Name, ".csv"))){
 
     b_evyth <- data.table::fread(file = utils::unzip(zipfile = paste0("/srv/DataDNMYE/evyth/", archivo_zip),
-                                                     files = archivos$Name[stringr::str_detect(archivos$Name, "csv")]))
+                                                     files = archivos$Name[stringr::str_detect(archivos$Name, "csv")]),
+                                 dec = ",")
   } else {
 
     if(any(stringr::str_ends(archivos$Name, ".sav"))){
@@ -56,9 +60,13 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
                                     reencode = "utf8")
     }
   }
+  file.remove(archivos$Name)
+
+  anio <- as.character(lubridate::year(fecha_ipc))
+  mes <- as.character(lubridate::month(fecha_ipc))
 
   ### Limpieza
-  serie_ipc <- evyth::obtener_ipc(fecha = "2022-08-01")
+  serie_ipc <- evyth::obtener_ipc(fecha = fecha_ipc)
 
   b_evyth <- b_evyth %>%
     dplyr::mutate(
@@ -70,10 +78,18 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
                                     p006_agrup == 2 ~ 3,
                                     p006_agrup == 3 ~ 4,
                                     p006_agrup == 4 ~ 5,
-                                    p006_agrup == 99 ~ 99),
-      p007 = ifelse(p007 == 0, NA_real_, p007),
-      cond_act = ifelse(cond_act == 0, 4, cond_act),
-      fecha_viaje = lubridate::ymd(paste(anio, mes_viaje, "01", sep = "-")))
+                                    p006_agrup == 99 ~ 9),
+      p007 = ifelse(test = p007 == 0,
+                    yes = NA_real_,
+                    no = p007),
+      cond_act = ifelse(test = cond_act == 0,
+                        yes = 4,
+                        no = cond_act),
+      fecha_viaje = lubridate::ymd(paste(anio, mes_viaje, "01", sep = "-"))) %>%
+    dplyr::left_join(dplyr::select(serie_ipc,
+                                   Mes, ipc_indice, coef_gastoreal),
+                     by = "Mes") %>%
+    dplyr::mutate("gasto_viajetot_pc_pesos_{anio}_{mes}" := gasto_pc * coef_gastoreal)
 
   ### Escribo la base de trabajo
   arrow::write_parquet(x = b_evyth,
@@ -82,14 +98,25 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE){
 
 
   ### Borro archivo que se genera con read_sav
-  if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "sav")])){
+  aux <- length(archivos$Name[stringr::str_detect(archivos$Name, "sav")])
 
-    file.remove(archivos$Name[stringr::str_detect(archivos$Name, "sav")])
+  if(aux > 0){
+
+    if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "sav")])){
+
+      file.remove(archivos$Name[stringr::str_detect(archivos$Name, "sav")])
+    }
   }
 
-  if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "csv")])){
+  aux <- length(archivos$Name[stringr::str_detect(archivos$Name, "csv")])
 
-    file.remove(archivos$Name[stringr::str_detect(archivos$Name, "csv")])
+  if(aux > 0){
+
+    if(file.exists(archivos$Name[stringr::str_detect(archivos$Name, "csv")])){
+
+      file.remove(archivos$Name[stringr::str_detect(archivos$Name, "csv")])
+
+    }
   }
 
   print("La base de trabajo se creo correctamente")

@@ -18,15 +18,16 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   ##  ~ Cargo base primaria  ----
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+  anioo <- anio
+  trimm <- trimestre
+
   b_evyth <- arrow::read_parquet("/srv/DataDNMYE/evyth/base_trabajo/evyth_base_de_trabajo.parquet",
-                                 as_data_frame = TRUE)
+                                 as_data_frame = TRUE) %>%
+    dplyr::filter((anio >= 2012 & anio <= anioo-1) | anio == anioo & trimestre <= trimm)
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
   ##  ~ Chequeo que la base cuente con información para el período especificado en la función  ----
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-  anioo <- anio
-  trimm <- trimestre
 
   ultimo_trim_evyth <- max(unique(b_evyth$trimestre[b_evyth$anio == max(b_evyth$anio)]))
 
@@ -34,8 +35,12 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   assertthat::assert_that(anioo %in% unique(b_evyth$anio),
                           msg = "La base no cuenta con info para el anio especificado")
 
+  ### Chequeo que haya información para el anio definido
+  assertthat::assert_that(anioo >= 2012,
+                          msg = "La base con información de años previos a 2012")
+
   ### Chequeo que haya información para el trimestre definido
-  assertthat::assert_that(anioo %in% unique(b_evyth$anio) & trimm %in% unique(b_evyth$trimestre[b_evyth$anio == anioo]),
+  assertthat::assert_that(anioo %in% unique(b_evyth$anio) & max(b_evyth$trimestre[b_evyth$anio == anioo]) == trimm,
                           msg = "La base no cuenta con info para el trimestre especificado")
 
   ### Chequeo que no haya valores NA en pondera para armar el trimestre
@@ -70,18 +75,12 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
   b_evyth <- b_evyth %>%
     dplyr::filter(arg_o_ext == 1) %>%
-    dplyr::filter(anio %in% c(2012:anioo) | anio == anioo & trimestre %in% c(1:trimm)) %>%
     dplyr::select(tidyselect::all_of(variables)) %>%
     dplyr::mutate(
       dplyr::across(c(px09, px10_1, px13), ~ ifelse(. == 9, 99, .)),
+      dplyr::across(c(j_cond_act), ~ ifelse(. == 99, 9, .)),
       dplyr::across(tidyselect::starts_with("pxb16_1_"), ~ dplyr::case_when(. == 0 ~ 2,
                                                                             . == 1 ~ 1)),
-      p006_agrup = dplyr::case_when(p006_agrup == 0 ~ 1,
-                                    p006_agrup == 1 ~ 2,
-                                    p006_agrup == 2 ~ 3,
-                                    p006_agrup == 3 ~ 4,
-                                    p006_agrup == 4 ~ 5,
-                                    p006_agrup == 99 ~ 99),
       p007 = ifelse(p007 == 0, NA_real_, p007),
       cond_act = ifelse(cond_act == 0, 4, cond_act))
 

@@ -37,21 +37,24 @@ obtener_ipc <- function(fecha){
 
   base <- base %>%
     tidyr::pivot_longer(cols = 2:ncol(.),
-                        names_to = "Mes",
+                        names_to = "Fecha",
                         values_to = "ipc_indice")
 
 
-  ultimo_dato <- base$ipc_indice[base$Mes == fecha]
-  ultima_fecha <- max(base$Mes)
+  ultimo_dato <- base$ipc_indice[base$Fecha == fecha]
+  ultima_fecha <- max(base$Fecha)
 
   assertthat::assert_that(fecha > "2016-12-01",
                           msg = "La fecha debe ser mayor al 2016-12-01")
 
-  assertthat::assert_that(fecha %in% unique(base$Mes),
+  assertthat::assert_that(fecha %in% unique(base$Fecha),
                           msg = "La fecha indicada no corresponde con el ultimo dato publicado por el INDEC")
 
   base <- base %>%
-    dplyr::mutate(variacion = base$ipc_indice[base$Mes == ultima_fecha] / ipc_indice)
+    dplyr::mutate(coef_gastoreal = base$ipc_indice[base$Fecha == ultima_fecha] / ipc_indice,
+                  anio = as.character(lubridate::year(Fecha)),
+                  mes = stringr::str_pad(as.character(lubridate::month(Fecha)), width = 2, side = "left", pad = "0"),
+                  Mes = as.numeric(paste0(anio,mes)))
 
 
   print(glue::glue("El calculo de variacion fue realizado en funcion del mes {fecha}"))

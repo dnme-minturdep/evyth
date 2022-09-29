@@ -4,12 +4,14 @@
 \alias{crear_base_trabajo}
 \title{Crear Base de Trabajo}
 \usage{
-crear_base_trabajo(escritura = TRUE, ambiente = FALSE)
+crear_base_trabajo(escritura = TRUE, ambiente = FALSE, fecha_ipc = NULL)
 }
 \arguments{
 \item{escritura}{por defecto TRUE}
 
 \item{ambiente}{por defecto FALSE}
+
+\item{fecha_ipc}{Introducir la fecha de referencia para el calculo del indice y coeficiente del ipc}
 }
 \value{
 Base de datos en formato de archivo parquet

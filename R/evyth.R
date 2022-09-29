@@ -30,8 +30,15 @@ if(getRversion() >= "2.15.1")  utils::globalVariables(
     "px10_1",
     "px13",
     "total_nacional",
-    "ipc_indice"
-    ))
+    "ipc_indice",
+    "j_cond_actividad",
+    "anio",
+    "mes",
+    "mes_viaje",
+    "coef_gastoreal",
+    "gasto_pc",
+    "j_cond_act",
+    "Fecha"))
 
 
 
