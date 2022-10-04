@@ -12,7 +12,7 @@
 
 escribir_base_microdato <- function(archivo = NULL, formato = "csv"){
 
-  if(formato == "cvs"){
+  if(formato == "csv"){
     ### Armo base usuaria en formato .csv
     readr::write_csv(x = archivo,
                      file = "/srv/DataDNMYE/evyth/microdatos/evyth_microdatos.csv", na = "",
