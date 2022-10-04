@@ -26,20 +26,20 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
     dplyr::filter((anio >= 2012 & anio <= anioo-1) | anio == anioo & trimestre <= trimm)
 
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  ##  ~ Chequeo que la base cuente con información para el período especificado en la función  ----
+  ##  ~ Chequeo que la base cuente con informacion para el periodo especificado en la funcion  ----
   ##~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
   ultimo_trim_evyth <- max(unique(b_evyth$trimestre[b_evyth$anio == max(b_evyth$anio)]))
 
-  ### Chequeo que haya información para el anio definido
+  ### Chequeo que haya informacion para el anio definido
   assertthat::assert_that(anioo %in% unique(b_evyth$anio),
                           msg = "La base no cuenta con info para el anio especificado")
 
-  ### Chequeo que haya información para el anio definido
+  ### Chequeo que haya informacion para el anio definido
   assertthat::assert_that(anioo >= 2012,
-                          msg = "La base con información de años previos a 2012")
+                          msg = "La base con informacion de anios previos a 2012")
 
-  ### Chequeo que haya información para el trimestre definido
+  ### Chequeo que haya informacion para el trimestre definido
   assertthat::assert_that(anioo %in% unique(b_evyth$anio) & max(b_evyth$trimestre[b_evyth$anio == anioo]) == trimm,
                           msg = "La base no cuenta con info para el trimestre especificado")
 
@@ -88,7 +88,7 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   ### chequeo
   #table(b_evyth$anio, b_evyth$trimestre)
 
-  ############################ Asignación de código INDEC a base EVyTH ----
+  ############################ Asignacion de codigo INDEC a base EVyTH ----
 
   ### Cargo tabla con codigos indec
   #b_cod_loc_evyth <- read_excel("salidas/localidades_evyth_con_codigo_2010.xlsx")
@@ -109,7 +109,7 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
 
 
 
-  #################################### Armo backup de última versión en server ----
+  #################################### Armo backup de ultima version en server ----
 
   if(backup == TRUE){
 
@@ -129,7 +129,7 @@ crear_base_microdato <- function(anio, trimestre, backup = FALSE){
   }
 
 
-  #################################### Generación de base usuario ----
+  #################################### Generacion de base usuario ----
 
   formatos <- c("csv", "txt", "sav", "dta", "xlsx")
   n_iteracion <- length(formatos)
