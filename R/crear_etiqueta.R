@@ -13,7 +13,8 @@
 
 crear_etiqueta <- function(base, variables = NULL, drop_vars = T) {
 
-  diccionario <- data.table::fread("http://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/d8107236-f5ba-428d-8a31-f9b2034d8c8f/download/evyth_diccionario_registro.csv")
+  #diccionario <- data.table::fread("http://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/d8107236-f5ba-428d-8a31-f9b2034d8c8f/download/evyth_diccionario_registro.csv")
+  diccionario <- evyth::diccionario
 
 
   if (is.null(variables)) {
