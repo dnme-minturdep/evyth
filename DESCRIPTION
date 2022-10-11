@@ -40,3 +40,6 @@ Remotes:
     dnme-minturdep/comunicacion
 URL: https://github.com/d4t4tur/evyth
 BugReports: https://github.com/d4t4tur/evyth/issues
+Depends: 
+    R (>= 2.10)
+LazyData: true
