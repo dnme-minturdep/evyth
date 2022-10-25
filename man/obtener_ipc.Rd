@@ -4,10 +4,12 @@
 \alias{obtener_ipc}
 \title{Descarga de tabla con serie de Indices IPC Cobertura Nacional}
 \usage{
-obtener_ipc(fecha)
+obtener_ipc(mes, anio)
 }
 \arguments{
-\item{fecha}{variable de texto que indica la fecha del ultimo dato a partir del cual se construye el indice. El formato debe ser anio/mes/dia ("2022-08-01")}
+\item{mes}{Variable numerica que indica el mes de publicacion del ipc que se busca}
+
+\item{anio}{Variable numerica que indica el anio de publicacion del ipc que se busca}
 }
 \value{
 dataframe con serie del indice de IPC Cobertura Nacional
@@ -16,6 +18,6 @@ dataframe con serie del indice de IPC Cobertura Nacional
 Descarga de tabla con serie de Indices IPC Cobertura Nacional
 }
 \examples{
-obtener_ipc("2022-07-01")
+obtener_ipc(mes = "10", anio = "2022")
 
 }

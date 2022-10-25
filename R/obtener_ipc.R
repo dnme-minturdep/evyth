@@ -1,17 +1,34 @@
 
 #' Descarga de tabla con serie de Indices IPC Cobertura Nacional
 #'
-#' @param fecha variable de texto que indica la fecha del ultimo dato a partir del cual se construye el indice. El formato debe ser anio/mes/dia ("2022-08-01")
+#' @param anio Variable numerica que indica el anio de publicacion del ipc que se busca
+#' @param mes Variable numerica que indica el mes de publicacion del ipc que se busca
 #'
 #' @return dataframe con serie del indice de IPC Cobertura Nacional
 #' @export
 #'
 #' @examples
-#' obtener_ipc("2022-07-01")
+#' obtener_ipc(mes = "10", anio = "2022")
 #'
-obtener_ipc <- function(fecha){
+obtener_ipc <- function(mes, anio){
 
-  pagina <- "https://www.indec.gob.ar/ftp/cuadros/economia/sh_ipc_09_22.xls"
+  assertthat::assert_that(is.character(anio), msg = "La variable tiene que ser de texto")
+  assertthat::assert_that(nchar(anio) == 4, msg = "La variable tiene que de 4 digitos. Por ejemplo: 2022, y no '22")
+  assertthat::assert_that(is.character(mes), msg = "La variable tiene que ser de texto")
+
+  if(as.numeric(mes) %in% c(2:12)){
+
+    fecha <- paste(anio, paste0("0", as.numeric(mes)-1), "01",
+                   sep = "-")
+  }
+
+  if(as.numeric(mes) == 1){
+    fecha <- paste(anio, "12", "01",
+                   sep = "-")
+  }
+
+
+  pagina <- glue::glue("https://www.indec.gob.ar/ftp/cuadros/economia/sh_ipc_{mes}_{substring(anio, 3,4)}.xls")
 
   temp <- tempfile()
   utils::download.file(url = pagina, destfile = temp)

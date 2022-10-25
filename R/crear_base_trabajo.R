@@ -62,11 +62,11 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE,
   }
   file.remove(archivos$Name)
 
-  anio <- as.character(lubridate::year(fecha_ipc))
-  mes <- as.character(lubridate::month(fecha_ipc))
+  anioo <- as.character(lubridate::year(fecha_ipc))
+  mess <- as.character(lubridate::month(fecha_ipc))
 
   ### Limpieza
-  serie_ipc <- evyth::obtener_ipc(fecha = fecha_ipc)
+  serie_ipc <- evyth::obtener_ipc(mes = mess, anio = anioo)
 
   b_evyth <- b_evyth %>%
     dplyr::mutate(
