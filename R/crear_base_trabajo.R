@@ -89,7 +89,7 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE,
     dplyr::left_join(dplyr::select(serie_ipc,
                                    Mes, ipc_indice, coef_gastoreal),
                      by = "Mes") %>%
-    dplyr::mutate("gasto_viajetot_pc_pesos_{anio}_{mes}" := gasto_pc * coef_gastoreal)
+    dplyr::mutate("gasto_viajetot_pc_pesos_{anioo}_{dplyr::if_else(as.numeric(mess) %in% c(2:12), as.numeric(mess)-1, 12)}" := gasto_pc * coef_gastoreal)
 
   ### Escribo la base de trabajo
   arrow::write_parquet(x = b_evyth,
