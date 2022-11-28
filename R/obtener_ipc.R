@@ -16,9 +16,15 @@ obtener_ipc <- function(mes, anio){
   assertthat::assert_that(nchar(anio) == 4, msg = "La variable tiene que de 4 digitos. Por ejemplo: 2022, y no '22")
   assertthat::assert_that(is.character(mes), msg = "La variable tiene que ser de texto")
 
-  if(as.numeric(mes) %in% c(2:12)){
+  if(as.numeric(mes) %in% c(2:9)){
 
     fecha <- paste(anio, paste0("0", as.numeric(mes)-1), "01",
+                   sep = "-")
+  }
+
+  if(as.numeric(mes) %in% c(10:12)){
+
+    fecha <- paste(anio, paste0(as.numeric(mes)-1), "01",
                    sep = "-")
   }
 
