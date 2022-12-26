@@ -67,6 +67,12 @@ crear_base_trabajo <- function(escritura = TRUE, ambiente = FALSE,
 
   ### Limpieza
   serie_ipc <- evyth::obtener_ipc(mes = mess, anio = anioo)
+  
+  # Chequeo si la variable de gasto es character
+  if(is.character(b_evyth$gasto_pc)) {
+    b_evyth$gasto_pc <- stringr::str_replace_all(b_evyth$gasto_pc, ',', '.')
+    b_evyth$gasto_pc <- as.numeric(b_evyth$gasto_pc)
+  }
 
   b_evyth <- b_evyth %>%
     dplyr::mutate(
