@@ -29,7 +29,7 @@ obtener_ipc <- function(mes, anio){
   }
 
   if(as.numeric(mes) == 1){
-    fecha <- paste(anio, "12", "01",
+    fecha <- paste(as.numeric(anio)-1, "12", "01",
                    sep = "-")
   }
 
