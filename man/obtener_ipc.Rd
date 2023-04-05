@@ -18,6 +18,7 @@ dataframe con serie del indice de IPC Cobertura Nacional
 Descarga de tabla con serie de Indices IPC Cobertura Nacional
 }
 \examples{
+\dontrun{
 obtener_ipc(mes = "10", anio = "2022")
-
+}
 }

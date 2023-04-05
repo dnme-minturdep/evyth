@@ -8,8 +8,9 @@
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' obtener_ipc(mes = "10", anio = "2022")
-#'
+#' }
 obtener_ipc <- function(mes, anio){
 
   assertthat::assert_that(is.character(anio), msg = "La variable tiene que ser de texto")
