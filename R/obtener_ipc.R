@@ -16,23 +16,9 @@ obtener_ipc <- function(mes, anio){
   assertthat::assert_that(nchar(anio) == 4, msg = "La variable tiene que de 4 digitos. Por ejemplo: 2022, y no '22")
   assertthat::assert_that(is.character(mes), msg = "La variable tiene que ser de texto")
 
-  if(as.numeric(mes) %in% c(2:9)){
 
-    fecha <- paste(anio, paste0("0", as.numeric(mes)-1), "01",
-                   sep = "-")
-  }
-
-  if(as.numeric(mes) %in% c(10:12)){
-
-    fecha <- paste(anio, paste0(as.numeric(mes)-1), "01",
-                   sep = "-")
-  }
-
-  if(as.numeric(mes) == 1){
-    fecha <- paste(as.numeric(anio)-1, "12", "01",
-                   sep = "-")
-  }
-
+  fecha <- glue::glue("{anio}-{as.numeric(mes)-1}-01") %>%
+    as.Date()
 
   pagina <- glue::glue("https://www.indec.gob.ar/ftp/cuadros/economia/sh_ipc_{mes}_{substring(anio, 3,4)}.xls")
 
@@ -70,7 +56,7 @@ obtener_ipc <- function(mes, anio){
   assertthat::assert_that(fecha > "2016-12-01",
                           msg = "La fecha debe ser mayor al 2016-12-01")
 
-  assertthat::assert_that(fecha %in% unique(base$Fecha),
+  assertthat::assert_that(as.character(fecha) %in% unique(base$Fecha),
                           msg = "La fecha indicada no corresponde con el ultimo dato publicado por el INDEC")
 
   base <- base %>%

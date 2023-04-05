@@ -1,3 +1,11 @@
+#' Diccionario de registro de la Encuesta de Viajes y Turismo de los Hogares (EVyTH)
+#'
+#' @name diccionario
+#' @docType data
+#' @author Dirección Nacional de Mercados y Estadísticas
+#' @keywords data
+
+
 ## Armado de base diccionario
 diccionario <- data.table::fread("http://datos.yvera.gob.ar/dataset/b5819e9b-5edf-4aad-bd39-a81158a2b3f3/resource/d8107236-f5ba-428d-8a31-f9b2034d8c8f/download/evyth_diccionario_registro.csv")
 
