@@ -1,5 +1,11 @@
 # evyth (development version)
 
+# evyth 0.0.0.9003
+
+* Arregla #18 que generaba un error al construir objeto `fecha` en `obtener_ipc()`
+
+* Mejora documentación
+
 # evyth 0.0.0.9002
 
 * Se agrega función `obtener_ipc()`, la cual Descarga de tabla con serie de Indices IPC Cobertura Nacional
